@@ -1,14 +1,14 @@
-= SPEC-1: Multi-vendor E-commerce Micro-Service Design Shop
+# SPEC-1: Multi-vendor E-commerce Micro-Service Design Shop
 :sectnums:
 :toc:
 
-== Background
+## Background
 
 The multi-vendor e-commerce platform aims to provide a comprehensive solution for managing an online marketplace where multiple vendors can list and sell their products. The platform needs to support all general e-commerce features, including user management, product catalog, order processing, payment handling, and more. Additionally, the platform will include advanced features such as club memberships and wallet functionalities to enhance user experience and loyalty.
 
-== Requirements
+## Requirements
 
-=== Functional Requirements
+### Functional Requirements
 
 *Must Have*:
 - User Management
@@ -56,7 +56,7 @@ The multi-vendor e-commerce platform aims to provide a comprehensive solution fo
 *Won't Have*:
 - Features not directly related to e-commerce and marketplace functionalities
 
-=== Non-Functional Requirements
+### Non-Functional Requirements
 
 - **Scalability**: The system should handle high traffic during peak times with horizontal scaling capabilities.
 - **Performance**: Ensure low latency for user interactions and fast search and listing functionalities.
@@ -280,7 +280,7 @@ CREATE TABLE wallet_transactions (
 
 In this section, we'll outline the steps to implement the designed architecture for the multi-vendor e-commerce platform using Golang, gRPC, and a message broker.
 
-== Implementation
+## Implementation
 
 ### Step 1: Set Up Project Structure
 Create a directory for the project and subdirectories for each microservice.
