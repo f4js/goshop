@@ -1,4 +1,27 @@
 # Multi-vendor E-commerce Micro-Service Design Shop
+## Table of Contents
+1. [Background](#background)
+2. [Requirements](#requirements)
+    1. [Functional Requirements](#functional-requirements)
+    2. [Non-Functional Requirements](#non-functional-requirements)
+3. [Method](#method)
+    1. [Microservices Architecture Overview](#microservices-architecture-overview)
+    2. [Proposed Microservices and Their Responsibilities](#proposed-microservices-and-their-responsibilities)
+    3. [Microservices Architecture Diagram](#microservices-architecture-diagram)
+    4. [Database Schemas](#database-schemas)
+4. [Implementation](#implementation)
+    1. [Step 1: Set Up Project Structure](#step-1-set-up-project-structure)
+    2. [Step 2: Define gRPC Protobuf Definitions](#step-2-define-grpc-protobuf-definitions)
+    3. [Step 3: Implement gRPC Services in Golang](#step-3-implement-grpc-services-in-golang)
+    4. [Step 4: Set Up Database for Each Service](#step-4-set-up-database-for-each-service)
+    5. [Step 5: Implement Message Broker Integration](#step-5-implement-message-broker-integration)
+    6. [Step 6: Implement Client-Side Logic](#step-6-implement-client-side-logic)
+    7. [Step 7: Set Up Continuous Integration and Deployment (CI/CD)](#step-7-set-up-continuous-integration-and-deployment-cicd)
+    8. [Step 8: Monitoring and Logging](#step-8-monitoring-and-logging)
+    9. [Step 9: Testing](#step-9-testing)
+    10. [Step 10: Deployment](#step-10-deployment)
+5. [Milestones](#milestones)
+6. [Gathering Results](#gathering-results)
 
 ## Background
 
@@ -906,3 +929,5 @@ After deployment, evaluate the system based on the following criteria:
 
 6. **User Feedback**:
    - Collect and analyze feedback from users and vendors
+
+![DDD](https://github.com/f4js/goshop/blob/main/DDD.svg)
