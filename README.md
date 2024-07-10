@@ -19,7 +19,8 @@
     7. [Step 7: Set Up Continuous Integration and Deployment (CI/CD)](#step-7-set-up-continuous-integration-and-deployment-cicd)
     8. [Step 8: Monitoring and Logging](#step-8-monitoring-and-logging)
     9. [Step 9: Testing](#step-9-testing)
-    10. [Step 10: Deployment](#step-10-deployment)
+    10. [Step 10: DevOps](#step-10-devops)
+    11. [Step 11: Deployment](#step-10-deployment)
 5. [Milestones](#milestones)
 6. [Gathering Results](#gathering-results)
 
@@ -505,7 +506,338 @@ Implement monitoring and logging for each service to track performance and issue
 ### Step 9: Testing
 Write unit tests, integration tests, and end-to-end tests to ensure the correctness and robustness of the system.
 
-### Step 10: Deployment
+
+### Step 10: DevOps
+
+### Dockerfile for User Service
+Create a `Dockerfile` for the user service:
+
+```dockerfile
+# user-service/Dockerfile
+FROM golang:1.18-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN go mod tidy
+RUN go build -o user-service .
+
+EXPOSE 50051
+
+CMD ["./user-service"]
+```
+
+### Dockerfile for Vendor Service
+Create a `Dockerfile` for the vendor service:
+
+```dockerfile
+# vendor-service/Dockerfile
+FROM golang:1.18-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN go mod tidy
+RUN go build -o vendor-service .
+
+EXPOSE 50052
+
+CMD ["./vendor-service"]
+```
+
+### Dockerfile for other services
+You can create similar `Dockerfile`s for each of the other services (e.g., product-catalog-service, order-service, etc.) by changing the working directory, port, and the service name accordingly.
+
+### Docker Compose File
+Create a `docker-compose.yml` file to define and run multi-container Docker applications:
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./user-service
+    container_name: user-service
+    ports:
+      - "50051:50051"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-user-db
+
+  vendor-service:
+    build:
+      context: ./vendor-service
+    container_name: vendor-service
+    ports:
+      - "50052:50052"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-vendor-db
+
+  product-catalog-service:
+    build:
+      context: ./product-catalog-service
+    container_name: product-catalog-service
+    ports:
+      - "50053:50053"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-product-db
+
+  order-service:
+    build:
+      context: ./order-service
+    container_name: order-service
+    ports:
+      - "50054:50054"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-order-db
+
+  payment-service:
+    build:
+      context: ./payment-service
+    container_name: payment-service
+    ports:
+      - "50055:50055"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-payment-db
+
+  review-rating-service:
+    build:
+      context: ./review-rating-service
+    container_name: review-rating-service
+    ports:
+      - "50056:50056"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-review-db
+
+  notification-service:
+    build:
+      context: ./notification-service
+    container_name: notification-service
+    ports:
+      - "50057:50057"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-notification-db
+
+  admin-service:
+    build:
+      context: ./admin-service
+    container_name: admin-service
+    ports:
+      - "50058:50058"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-admin-db
+
+  club-membership-service:
+    build:
+      context: ./club-membership-service
+    container_name: club-membership-service
+    ports:
+      - "50059:50059"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-membership-db
+
+  wallet-service:
+    build:
+      context: ./wallet-service
+    container_name: wallet-service
+    ports:
+      - "50060:50060"
+    networks:
+      - multi-vendor-network
+    depends_on:
+      - postgres-wallet-db
+
+  postgres-user-db:
+    image: postgres:13
+    container_name: postgres-user-db
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5432:5432"
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+
+  postgres-vendor-db:
+    image: postgres:13
+    container_name: postgres-vendor-db
+    environment:
+      POSTGRES_DB: vendordb
+      POSTGRES_USER: vendor
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5433:5432"
+    volumes:
+      - vendor-db-data:/var/lib/postgresql/data
+
+  postgres-product-db:
+    image: postgres:13
+    container_name: postgres-product-db
+    environment:
+      POSTGRES_DB: productdb
+      POSTGRES_USER: product
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5434:5432"
+    volumes:
+      - product-db-data:/var/lib/postgresql/data
+
+  postgres-order-db:
+    image: postgres:13
+    container_name: postgres-order-db
+    environment:
+      POSTGRES_DB: orderdb
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5435:5432"
+    volumes:
+      - order-db-data:/var/lib/postgresql/data
+
+  postgres-payment-db:
+    image: postgres:13
+    container_name: postgres-payment-db
+    environment:
+      POSTGRES_DB: paymentdb
+      POSTGRES_USER: payment
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5436:5432"
+    volumes:
+      - payment-db-data:/var/lib/postgresql/data
+
+  postgres-review-db:
+    image: postgres:13
+    container_name: postgres-review-db
+    environment:
+      POSTGRES_DB: reviewdb
+      POSTGRES_USER: review
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5437:5432"
+    volumes:
+      - review-db-data:/var/lib/postgresql/data
+
+  postgres-notification-db:
+    image: postgres:13
+    container_name: postgres-notification-db
+    environment:
+      POSTGRES_DB: notificationdb
+      POSTGRES_USER: notification
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5438:5432"
+    volumes:
+      - notification-db-data:/var/lib/postgresql/data
+
+  postgres-admin-db:
+    image: postgres:13
+    container_name: postgres-admin-db
+    environment:
+      POSTGRES_DB: admindb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5439:5432"
+    volumes:
+      - admin-db-data:/var/lib/postgresql/data
+
+  postgres-membership-db:
+    image: postgres:13
+    container_name: postgres-membership-db
+    environment:
+      POSTGRES_DB: membershipdb
+      POSTGRES_USER: membership
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5440:5432"
+    volumes:
+      - membership-db-data:/var/lib/postgresql/data
+
+  postgres-wallet-db:
+    image: postgres:13
+    container_name: postgres-wallet-db
+    environment:
+      POSTGRES_DB: walletdb
+      POSTGRES_USER: wallet
+      POSTGRES_PASSWORD: password
+    networks:
+      - multi-vendor-network
+    ports:
+      - "5441:5432"
+    volumes:
+      - wallet-db-data:/var/lib/postgresql/data
+
+networks:
+  multi-vendor-network:
+    driver: bridge
+
+volumes:
+  user-db-data:
+  vendor-db-data:
+  product-db-data:
+  order-db-data:
+  payment-db-data:
+  review-db-data:
+  notification-db-data:
+  admin-db-data:
+  membership-db-data:
+  wallet-db-data:
+```
+
+### Instructions
+
+1. **Create Project Structure**: Create the project structure as specified in the `docker-compose.yml` file.
+2. **Create Dockerfiles**: Create `Dockerfile`s for each service in their respective directories.
+3. **Create docker-compose.yml**: Create the `docker-compose.yml` file at the root of the project.
+4. **Build and Run**: Run the following commands to build and start your multi-service application:
+    ```sh
+    docker-compose up --build
+    ```
+
+This setup uses PostgreSQL for databases and defines separate containers for each service and its respective database. Adjust the ports and configurations as needed for your environment.
+
+### Step 11: Deployment
 Deploy the microservices to a cloud provider or on-premises infrastructure using container orchestration tools like Kubernetes.
 
 ## Milestones
