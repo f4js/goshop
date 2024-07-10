@@ -1,6 +1,4 @@
-# SPEC-1: Multi-vendor E-commerce Micro-Service Design Shop
-:sectnums:
-:toc:
+# Multi-vendor E-commerce Micro-Service Design Shop
 
 ## Background
 
@@ -487,8 +485,7 @@ Write unit tests, integration tests, and end-to-end tests to ensure the correctn
 ### Step 10: Deployment
 Deploy the microservices to a cloud provider or on-premises infrastructure using container orchestration tools like Kubernetes.
 
-```asciidoc
-== Milestones
+## Milestones
 
 1. **Project Setup**:
     - Create project structure
@@ -519,7 +516,7 @@ Deploy the microservices to a cloud provider or on-premises infrastructure using
 8. **Deployment**:
     - Deploy services to production
 
-== Gathering Results
+## Gathering Results
 
 After deployment, evaluate the system based on the following criteria:
 
@@ -535,5 +532,3 @@ After deployment, evaluate the system based on the following criteria:
     - Conduct security audits and penetration tests
 6. **User Feedback**:
     - Collect and analyze feedback from users and vendors
-
-```
